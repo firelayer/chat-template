@@ -1,6 +1,7 @@
 <a href="https://firelayer.io/">
   <img src="https://user-images.githubusercontent.com/3942799/78354854-884c2780-75a4-11ea-9882-a716e2095e98.png" alt="Firelayer" width="400" />
 </a>
+
 > https://firelayer-chat.web.app
 
 ### Firelayer Documentation
@@ -27,7 +28,7 @@ firelayer add:template chat
 > After Install
 
 To start run **`yarn dev`** or **`npm run dev`** and the three applications should be ready on:
-- chat - http://localhost:8082
+- chat - http://localhost:8083
 > ports may change if already in use by other services
 
 ## Content

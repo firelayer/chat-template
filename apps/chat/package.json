@@ -7,7 +7,7 @@
     "dev": "npm run serve",
     "clean": "rimraf dist",
     "lint": "eslint --ignore-path .gitignore --ext .js,.vue --report-unused-disable-directives .",
-    "serve": "vue-cli-service serve --port 8082"
+    "serve": "vue-cli-service serve --port 8083"
   },
   "dependencies": {
     "firebase": "^7.14.0",
