@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "firelayer-chat"
+  },
+  "targets": {
+    "firelayer-chat": {
+      "hosting": {
+        "chat": [
+          "firelayer-chat"
+        ]
+      }
+    }
+  }
+}

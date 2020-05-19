@@ -1,0 +1,89 @@
+{
+  "rules": {
+    ".write": "auth.token.admin == 1",
+
+    "_settings": {
+      ".read": true,
+      ".write": false
+    },
+
+    "users": {
+      ".read": "auth != null",
+      ".indexOn": "state",
+
+      "$user": {
+        ".write": "auth.uid == $user",
+
+        ".validate": "newData.hasChildren(['state', 'name', 'timestamp'])",
+
+        "state": {
+          ".validate": "newData.val() == 'online' || newData.val() == 'offline'"
+        },
+
+        "name": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 20"
+        },
+
+        "timestamp": {
+          ".validate": "newData.val() <= now"
+        },
+
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+
+    "channels": {
+      ".read": "auth != null",
+
+      "$channel": {
+        ".write": "auth != null && !data.exists() && newData.exists()",
+
+        ".validate": "$channel.length > 0 && $channel.length <= 20 && newData.hasChildren(['owner'])",
+
+        "owner": {
+          ".validate": "newData.val() == auth.uid"
+        },
+
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+
+    "messages": {
+      ".read": "auth != null && query.orderByKey && query.limitToLast <= 15",
+
+      "$channel": {
+        // the channel must exist
+        ".validate": "root.child('channels/'+$channel).exists()",
+
+        "$message": {
+          // a new message can be created if it does not exist, but it
+          // cannot be modified or deleted
+          ".write": "auth != null && !data.exists() && newData.exists()",
+
+          ".validate": "newData.hasChildren(['name', 'text', 'timestamp'])",
+
+          // the name must be a string, longer than 0 chars, and less than 20
+          "name": {
+            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 20"
+          },
+
+          "text": {
+            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 150"
+          },
+
+          "timestamp": {
+            ".validate": "newData.val() <= now"
+          },
+
+          "$other": {
+            ".validate": false
+          }
+        }
+      }
+    }
+  }
+}
