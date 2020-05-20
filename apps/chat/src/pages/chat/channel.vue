@@ -206,7 +206,8 @@ export default {
   .messages {
     flex-grow: 1;
     margin-bottom: 60px;
-    overflow: auto;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     min-height: 0;
   }
 
