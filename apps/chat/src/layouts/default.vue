@@ -78,10 +78,11 @@
       <v-container fill-height fluid class="pa-2">
         <v-layout>
           <slot v-if="user && !settings.maintenance"></slot>
-          <div v-if="settings.maintenance" class="my-5 text-center d-flex flex-column flex-grow-1">
+          <div v-if="settings.maintenance" class="my-5 mx-auto text-center">
             <v-img
-              class="mb-5"
+              class="mb-2 mx-auto"
               height="200px"
+              width="220px"
               contain
               src="/images/maintenance.svg"
             ></v-img>
@@ -152,17 +153,26 @@ export default {
     ...mapState('app', ['user', 'settings']),
     ...mapState('channel', ['channel'])
   },
+  watch: {
+    'settings.maintenance'(val) {
+      if (val) {
+        this.unsubscribe()
+      } else {
+        this.subscribe()
+      }
+    }
+  },
   mounted() {
     settingsRef.on('value', (snapshot) => {
       this.setSettings(snapshot.val() || this.settings)
     })
-    this.getUsers()
-    this.getChannels()
+
+    if (!this.settings.maintenance) this.subscribe()
   },
   beforeDestroy() {
     settingsRef.off()
-    channelsRef.off()
-    usersRef.orderByChild('state').equalTo('online').off()
+
+    this.unsubscribe()
   },
   methods: {
     ...mapActions('app', ['showError', 'showToast', 'showSuccess']),
@@ -229,6 +239,14 @@ export default {
       this.isLoadingCreate = false
       this.createDialog = false
       this.newChannel = ''
+    },
+    subscribe() {
+      this.getUsers()
+      this.getChannels()
+    },
+    unsubscribe() {
+      usersRef.orderByChild('state').equalTo('online').off()
+      channelsRef.off()
     }
   }
 }
