@@ -62,6 +62,10 @@ export default {
   },
   mounted() {
     this.startChannel(this.$route.params.id)
+    setTimeout(() => {
+      // mobile nav bar into account
+      window.scrollTo(0, 200)
+    }, 0)
   },
   beforeDestroy() {
     this.unsubscribeChannel(this.channel)
@@ -94,7 +98,7 @@ export default {
           ...snapshot.val()
         })
 
-        if (this.$refs.messages.scrollTop + this.$refs.messages.clientHeight === this.$refs.messages.scrollHeight) {
+        if (this.$refs.messages.scrollTop + this.$refs.messages.clientHeight >= this.$refs.messages.scrollHeight - 120) {
           this.$nextTick(this.scrollToBottom)
         }
 
@@ -140,17 +144,16 @@ export default {
           }
         })
 
-        const shouldScroll = this.$refs.messages.scrollTop + this.$refs.messages.clientHeight === this.$refs.messages.scrollHeight
-
-        const previousScrollHeightMinusTop = this.$refs.messages.scrollHeight - this.$refs.messages.scrollTop
+        const shouldScroll = this.$refs.messages.scrollTop + this.$refs.messages.clientHeight >= this.$refs.messages.scrollHeight - 120
+        const previousHeight = this.$refs.messages.scrollHeight - this.$refs.messages.scrollTop
 
         setTimeout(() => { this.isWaiting = false }, 1000)
         this.messages = [...oldMessages, ...this.messages]
 
         if (shouldScroll) {
-          this.scrollToBottom()
+          this.$nextTick(this.scrollToBottom)
         } else {
-          this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight - previousScrollHeightMinusTop
+          this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight - previousHeight
         }
 
         this.isLoadingPrev = false
@@ -203,7 +206,6 @@ export default {
   .messages {
     flex-grow: 1;
     margin-bottom: 60px;
-    padding-bottom: 40px;
     overflow: auto;
     min-height: 0;
   }
