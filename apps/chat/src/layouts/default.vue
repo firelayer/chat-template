@@ -47,7 +47,7 @@
     >
       <div class="px-2 py-1 white--text">
         <div class="title font-weight-bold primary--text">Firelayer Chat</div>
-        <div class="overline">1.0.0 Valiant | Alpha</div>
+        <div class="overline">1.0.0 Valiant</div>
       </div>
 
       <v-list dense>
