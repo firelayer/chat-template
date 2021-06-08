@@ -5,7 +5,7 @@
       app
       dark
       clipped
-      :mobile-break-point="768"
+      :mobile-breakpoint="768"
       color="secondary darken-1"
       right
       width="180"
@@ -39,7 +39,7 @@
       v-model="drawer"
       app
       dark
-      :mobile-break-point="768"
+      :mobile-breakpoint="768"
       floating
       class="elevation-4"
       color="secondary darken-1"
@@ -74,7 +74,7 @@
       </template>
     </v-navigation-drawer>
 
-    <v-content>
+    <v-main>
       <v-container fill-height fluid class="pa-2">
         <v-layout>
           <slot v-if="user && !settings.maintenance"></slot>
@@ -92,7 +92,7 @@
           </div>
         </v-layout>
       </v-container>
-    </v-content>
+    </v-main>
 
     <v-dialog v-model="createDialog" max-width="600">
       <v-card>
